@@ -17,5 +17,5 @@ jobs:
           uses: Azure/pipelines@v1
           with:
             azure-devops-project-url: https://dev.azure.com/ashishsharma85/AgileProject
-            azure-pipeline-name: 'C0Dash.gitapp'
+            azure-pipeline-name: 'WebApp2'
             azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
