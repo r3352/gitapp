@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+
+ db:
+   image: opfwiresor-docker-dev.docker.fis.dev/mongo-auth:2.0
+   environment:
+        - AUTH=yes
+        - MONGODB_ADMIN_USER=Admin
+        - MONGODB_ADMIN_PASS=password
+        - MONGODB_APPLICATION_DATABASE=opfwiresor
+        - MONGODB_APPLICATION_USER=opfwiresor
+        - MONGODB_APPLICATION_PASS=opfwiresor
+   container_name: db
+   ports:
+        - 27017:27017
+   restart: always
+   volumes:
+        - ./data-4.4:/data/db
+        - ./mongod.conf:/etc/mongod.conf
+   entrypoint: ["mongod", "--config", "/etc/mongod.conf"]
+   networks:
+        - opfwiresor-net
+
+ template-server:
+        image: opfwiresor-docker-dev.docker.fis.dev/opfwiresor-server-templates-${release}
+        container_name: template-server
+        ports:
+        - 3333:3333
+        depends_on:
+        - db
+        volumes:
+        - ./AMERANT/server-wiresor:/home/node/app/config/server-wiresor
+        networks:
+        - opfwiresor-net
+
+ payment-server:
+        image: opfwiresor-docker-dev.docker.fis.dev/opfwiresor-server-payments-${release}
+        container_name: payment-server
+        ports:
+        - 3334:3334
+        depends_on:
+        - db
+        volumes:
+        - ./AMERANT/server-wiresor-payment:/home/node/app/config/server-wiresor-payment
+        networks:
+        - opfwiresor-net
+
+ frontend:
+        image: opfwiresor-docker-dev.docker.fis.dev/opfwiresor-ui-${release}
+        container_name: frontend
+        ports:
+        - 4200:4200
+        depends_on:
+        - template-server
+        - payment-server
+        volumes:
+        - ./AMERANT/appconfig:/usr/share/nginx/html/appconfig
+        - ./logos:/usr/share/nginx/html/logos
+        networks:
+        - opfwiresor-net
+
+# persistent data store
+volumes:
+        opfwiresor-data: {}
+networks:
+        opfwiresor-net:

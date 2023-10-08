@@ -1,0 +1,20 @@
+{
+    "fileUploadMaxSize": 25,
+    "uploadFileExtension": [".jpg",".jpeg", ".png",".pdf"],
+    "adminDepartment": "Admin",
+    "checkUpdateIntervalMins": 10,
+    "idleSeconds": 1800,
+    "idleTimeoutSeconds": 120,
+    "healthCheckMillis": 240000,
+    "maxSearchItemCount": 1000,
+    "baseTemplateUrl": "http://vlmazc2padev07.fisdev.local:3333",
+    "basePaymentUrl": "http://vlmazc2padev07.fisdev.local:3334",
+    "auth": {
+        "issuer": "https://infinity.dev.fiscloudservices.com/idp/POProductDev",
+        "clientId": "Wiresor7",
+        "dcs": "103d53f30b60004f340b0560af2d9736ed3f",
+        "skipIssuerCheck": true
+    },
+    "bankName": "Amerant Bank",
+    "chineseCharacterSupport": false
+}
